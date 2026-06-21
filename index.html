@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Vendor Marketplace — Mansour Kanswa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2334506A'/%3E%3Cstop offset='60%25' stop-color='%231F3346'/%3E%3Cstop offset='100%25' stop-color='%2316242F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial,Helvetica,sans-serif' font-size='32' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:#FAFAF8; color:#1A1A1A; font-family:'Inter',-apple-system,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .top-bar{ background:rgba(250,250,248,0.86); backdrop-filter:blur(10px); border-bottom:1px solid #E5E3DD; padding:16px 28px; display:flex; justify-content:space-between; align-items:center; }
+  .back-link{ font-family:'JetBrains Mono',monospace; font-size:13px; color:#6B6B6B; text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .15s; }
+  .back-link:hover{ color:#1A1A1A; } .back-link svg{ width:14px; height:14px; }
+  .page-title{ font-size:13px; font-weight:600; color:#2D4356; letter-spacing:0.04em; }
+  .project-page{ max-width:900px; margin:0 auto; padding:40px 28px 60px; }
+  .project-header{ margin-bottom:40px; }
+  .project-header h1{ font-size:28px; font-weight:800; letter-spacing:-0.02em; margin-bottom:8px; }
+  .project-header p{ font-size:15px; color:#4A4A48; max-width:500px; }
+  .preview-section{ background:#fff; border:1px solid #E5E3DD; border-radius:14px; padding:40px; margin-bottom:40px; min-height:400px; }
+  .code-section h2{ font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#1A1A1A; margin-bottom:16px; }
+  pre{ background:#1a1a2e; color:#e0e0e0; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.7; padding:24px; border-radius:10px; overflow-x:auto; tab-size:2; }
+  .hl-kw{ color:#c792ea; } .hl-fn{ color:#82aaff; } .hl-str{ color:#c3e88d; } .hl-num{ color:#f78c6c; } .hl-cm{ color:#546e7a; font-style:italic; }
+  footer{ text-align:center; padding:30px 28px; border-top:1px solid #E5E3DD; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#6B6B6B; }
+
+  .market{ max-width:640px; margin:0 auto; width:100%; }
+  .market-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px; }
+  .market-head h3{ font-size:16px; }
+  .market-head select{ padding:7px 10px; border:1px solid #E5E3DD; border-radius:6px; font-size:12px; outline:none; }
+  .market-vendors{ display:flex; gap:6px; margin-bottom:16px; overflow-x:auto; padding-bottom:4px; }
+  .vendor-tag{ padding:6px 14px; border:1px solid #E5E3DD; border-radius:16px; font-size:12px; cursor:pointer; white-space:nowrap; background:#fff; transition:.15s; }
+  .vendor-tag:hover,.vendor-tag.active{ background:#2D4356; color:#fff; border-color:#2D4356; }
+  .market-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .market-card{ border:1px solid #E5E3DD; border-radius:10px; padding:16px; transition:.15s; position:relative; }
+  .market-card:hover{ box-shadow:0 4px 12px rgba(0,0,0,0.07); }
+  .market-card .vendor{ font-size:10px; color:#2D4356; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px; }
+  .market-card .thumb{ font-size:28px; margin-bottom:6px; }
+  .market-card .name{ font-weight:600; font-size:13px; margin-bottom:2px; }
+  .market-card .price{ font-size:16px; font-weight:800; color:#2D4356; }
+  .market-card .rating{ font-size:11px; color:#A67A00; }
+  .market-card button{ margin-top:8px; padding:6px 14px; background:#1A1A1A; color:#fff; border:none; border-radius:6px; font-size:12px; cursor:pointer; width:100%; }
+  .market-card button:hover{ background:#2D4356; }
+  .market-cart{ margin-top:16px; padding:14px 18px; background:#FAFAF8; border:1px solid #E5E3DD; border-radius:10px; display:flex; justify-content:space-between; align-items:center; }
+  .market-cart span{ font-size:13px; }
+  .market-cart .total{ font-weight:700; font-size:16px; color:#2D4356; }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a class="back-link" href="../../"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7l-7 7 7 7"/></svg>Back to portfolio</a>
+  <span class="page-title">Project / Multi-Vendor Marketplace</span>
+</div>
+<div class="project-page">
+  <div class="project-header">
+    <h1>Multi-Vendor Marketplace</h1>
+    <p>A marketplace platform where multiple vendors list products, with per-vendor ratings and a shared cart.</p>
+  </div>
+  <div class="preview-section">
+    <div class="market">
+      <div class="market-head">
+        <h3>🛍️ Marketplace</h3>
+        <select onchange="filterVendor(this.value)">
+          <option value="all">All Vendors</option>
+        </select>
+      </div>
+      <div class="market-vendors" id="vendorTags"></div>
+      <div class="market-grid" id="marketGrid"></div>
+      <div class="market-cart" id="marketCart">
+        <span id="cartSummary">Cart: <strong>0 items</strong></span>
+        <span class="total" id="cartTotal">$0.00</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-section">
+    <h2>Source Code</h2>
+    <pre><span class="hl-cm">// Multi-Vendor Marketplace — vendors, products, shared cart</span>
+
+<span class="hl-kw">const</span> vendors = [
+  { id: <span class="hl-num">1</span>, name: <span class="hl-str">"TechWonders"</span> },
+  { id: <span class="hl-num">2</span>, name: <span class="hl-str">"Handmade Hub"</span> },
+  { id: <span class="hl-num">3</span>, name: <span class="hl-str">"GreenLife"</span> },
+];
+
+<span class="hl-kw">const</span> products = [
+  { id: <span class="hl-num">1</span>, name: <span class="hl-str">"Wireless Earbuds"</span>, price: <span class="hl-num">49.99</span>, vendor: <span class="hl-num">1</span>, rating: <span class="hl-num">4.5</span>, img: <span class="hl-str">"🎧"</span> },
+  { id: <span class="hl-num">2</span>, name: <span class="hl-str">"Handmade Ceramic Mug"</span>, price: <span class="hl-num">19.99</span>, vendor: <span class="hl-num">2</span>, rating: <span class="hl-num">4.8</span>, img: <span class="hl-str">"☕"</span> },
+  { id: <span class="hl-num">3</span>, name: <span class="hl-str">"Bamboo Plant Pot"</span>, price: <span class="hl-num">29.99</span>, vendor: <span class="hl-num">3</span>, rating: <span class="hl-num">4.2</span>, img: <span class="hl-str">"🪴"</span> },
+  { id: <span class="hl-num">4</span>, name: <span class="hl-str">"Phone Stand"</span>, price: <span class="hl-num">14.99</span>, vendor: <span class="hl-num">1</span>, rating: <span class="hl-num">4.3</span>, img: <span class="hl-str">"📱"</span> },
+  { id: <span class="hl-num">5</span>, name: <span class="hl-str">"Wool Scarf"</span>, price: <span class="hl-num">34.99</span>, vendor: <span class="hl-num">2</span>, rating: <span class="hl-num">4.9</span>, img: <span class="hl-str">"🧣"</span> },
+  { id: <span class="hl-num">6</span>, name: <span class="hl-str">"Plant Fertilizer"</span>, price: <span class="hl-num">12.99</span>, vendor: <span class="hl-num">3</span>, rating: <span class="hl-num">4.0</span>, img: <span class="hl-str">"🧴"</span> },
+];
+
+<span class="hl-kw">let</span> cart = [];
+<span class="hl-kw">let</span> activeVendor = <span class="hl-str">"all"</span>;
+<span class="hl-kw">let</span> vendorMap = {};</pre>
+  </div>
+</div>
+<footer><span>Mansour Kanswa</span></footer>
+<script>
+  const vendors = [
+    { id: 1, name: "TechWonders", color: "#2D4356" },
+    { id: 2, name: "Handmade Hub", color: "#C792EA" },
+    { id: 3, name: "GreenLife", color: "#3FA66A" },
+  ];
+
+  const products = [
+    { id: 1, name: "Wireless Earbuds", price: 49.99, vendor: 1, rating: 4.5, img: "🎧" },
+    { id: 2, name: "Handmade Ceramic Mug", price: 19.99, vendor: 2, rating: 4.8, img: "☕" },
+    { id: 3, name: "Bamboo Plant Pot", price: 29.99, vendor: 3, rating: 4.2, img: "🪴" },
+    { id: 4, name: "Phone Stand", price: 14.99, vendor: 1, rating: 4.3, img: "📱" },
+    { id: 5, name: "Wool Scarf", price: 34.99, vendor: 2, rating: 4.9, img: "🧣" },
+    { id: 6, name: "Plant Fertilizer", price: 12.99, vendor: 3, rating: 4.0, img: "🧴" },
+    { id: 7, name: "USB-C Cable Pack", price: 9.99, vendor: 1, rating: 4.1, img: "🔌" },
+    { id: 8, name: "Scented Candle Set", price: 24.99, vendor: 2, rating: 4.7, img: "🕯️" },
+  ];
+
+  const vendorMap = {};
+  vendors.forEach(v => vendorMap[v.id] = v);
+
+  let cart = [];
+  let activeVendor = "all";
+
+  function getVendorName(id) { const v = vendorMap[id]; return v ? v.name : "Unknown"; }
+
+  function render() {
+    const sel = document.querySelector(".market-head select");
+    sel.innerHTML = '<option value="all">All Vendors</option>' + vendors.map(v => `<option value="${v.id}">${v.name}</option>`).join("");
+
+    document.getElementById("vendorTags").innerHTML = '<button class="vendor-tag active" onclick="filterVendor(\'all\')">All</button>' +
+      vendors.map(v => `<button class="vendor-tag" onclick="filterVendor(${v.id})">${v.name}</button>`).join("");
+
+    const filtered = activeVendor === "all" ? products : products.filter(p => p.vendor === activeVendor);
+    document.getElementById("marketGrid").innerHTML = filtered.map(p => {
+      const inCart = cart.find(c => c.id === p.id);
+      return `<div class="market-card">
+        <div class="vendor">${getVendorName(p.vendor)}</div>
+        <div class="thumb">${p.img}</div>
+        <div class="name">${p.name}</div>
+        <div class="price">$${p.price.toFixed(2)} <span class="rating">★ ${p.rating}</span></div>
+        <button onclick="addToMarket(${p.id})">${inCart ? `✓ In Cart (${inCart.qty})` : 'Add to cart'}</button>
+      </div>`;
+    }).join("");
+
+    const count = cart.reduce((a, c) => a + c.qty, 0);
+    const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
+    document.getElementById("cartSummary").innerHTML = `Cart: <strong>${count} items</strong>`;
+    document.getElementById("cartTotal").textContent = "$" + total.toFixed(2);
+
+    document.querySelectorAll(".vendor-tag").forEach(b => b.classList.toggle("active", b.textContent === "All" && activeVendor === "all" || b.textContent === (vendorMap[activeVendor] || {}).name));
+  }
+
+  function filterVendor(id) {
+    activeVendor = id;
+    document.querySelector(".market-head select").value = id;
+    render();
+  }
+
+  document.querySelector(".market-head select").addEventListener("change", function() { filterVendor(this.value); });
+
+  function addToMarket(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    const item = cart.find(x => x.id === id);
+    item ? item.qty++ : cart.push({ ...p, qty: 1 });
+    render();
+  }
+  render();
+</script>
+</body>
+</html>
